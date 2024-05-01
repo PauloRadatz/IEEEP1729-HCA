@@ -27,6 +27,19 @@ class FeederCondition:
         else:
             v = "no"
         dss.text(f"batchedit generator..* enabled={v}")
+        dss.solution.solve()
+
+    @classmethod
+    def set_existing_gen_mult(cls, dss: py_dss_interface.DSS, value: float = 1):
+
+        dss.generators.first()
+        for _ in range(dss.generators.count):
+            dss.generators.kw = dss.generators.kw * value
+            dss.generators.kva = dss.generators.kva * value
+            dss.generators.kvar = dss.generators.kvar * value
+            dss.generators.next()
+
+        dss.solution.solve()
 
     @classmethod
     def set_load_model(cls, dss: py_dss_interface.DSS):
